@@ -26,25 +26,25 @@ Start-Transcript -Path $logFile -Append
 
 $manifestm365 = https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/m365.yaml
 $manifestsophos = https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml
+# Lista delle applicazioni da installare
+$apps = @(
+	  "7zip.7zip",
+    "Google.Chrome",
+    "Microsoft.VCRedist.2015+.x64",
+    "Microsoft.VCRedist.2015+.x86"
+)
 
 # Import del modulo winget remote
 Write-Log "importo il modulo remoto 'winget remote all'interno della sessione"
 iex (irm "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1")
 
-
 # installazione dei pacchetti base con winget standard
-Write-Log "Installazione di 7zip"
-Write-Log ""
-winget install --id=7zip.7zip -e --silent --accept-package-agreements --accept-source-agreements
-Write-Log "Installazione di Google Chrome"
-Write-Log ""
-winget install --id=Google.Chrome -e --silent --accept-package-agreements --accept-source-agreements
-Write-Log "Installazione di vcredist 2015-2022 x64 & x86"
-Write-Log ""
-winget install --id=Microsoft.VCRedist.2015+.x64 -e --silent --accept-package-agreements --accept-source-agreements
-winget install --id=Microsoft.VCRedist.2015+.x86 -e --silent --accept-package-agreements --accept-source-agreements
-Write-Log "Installazione di Office265"
-Write-Log ""
+foreach ($app in $apps) {
+	  Write-Log ""
+    Write-Log "Installazione di $app in corso..." -ForegroundColor Cyan
+    winget install $app --silent --accept-package-agreements --accept-source-agreements
+}
+
 # installazione con il modulo winget remote di m365 e sophos s2e
 winget remote $manifestm365
 Write-Log "Installazione di Sophos"
