@@ -18,14 +18,14 @@ Function Write-Log {
     )
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     $logEntry = "$timestamp - $Message"
-    $logEntry | Out-File -Append -FilePath $logFile
     Write-Output $logEntry
 }
 # Abilita il logging automatico di tutti i comandi eseguiti
 Start-Transcript -Path $logFile -Append
 
-$manifestm365 = https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/m365.yaml
-$manifestsophos = https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml
+$manifestm365 = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/m365.yaml"
+$manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
+
 # Lista delle applicazioni da installare
 $apps = @(
 	  "7zip.7zip",
