@@ -1,6 +1,7 @@
 #########################################################################################################################################################
 # s2e deployment script
 #########################################################################################################################################################
+Start-Sleep -Seconds 5
 
 # Richiesta dei privilegi Amministrativi se necessario
 If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")) {
