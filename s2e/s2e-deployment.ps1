@@ -2,13 +2,6 @@
 # s2e deployment script
 #########################################################################################################################################################
 
-# Richiesta dei privilegi Amministrativi se necessario
-$adminCheck = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-if (-not $adminCheck) {
-    Start-Process pwsh -ArgumentList "-NoProfile -ExecutionPolicy Bypass -Command `"irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/s2e-deployment.ps1 | iex`"" -Verb RunAs
-    Exit
-}
-
 # Definizione del file di log
 $logFile = "deployment-s2e.txt"
 $transcriptlogFile = "deployments2e-transcript.txt"
@@ -53,7 +46,6 @@ try {
 } catch {
     log "Errore nell'importazione del modulo 'winget remote'."
 }
-iex (irm "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1")
 
 # installazione con il modulo winget remote di sophos s2e
 $result = winget remote $manifestsophos
@@ -79,8 +71,8 @@ try {
 
 # Dpeloyment completato mostro form di completamento
 try {
-    irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1 | iex
     log "deployment s2e completato."
+    irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1 | iex && exit
 } catch {
     log "Errore nel recupero del deployment form."
 }
