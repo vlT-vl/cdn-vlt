@@ -48,3 +48,4 @@ winget upgrade --all --silent --accept-source-agreements --accept-package-agreem
 
 
 log "deployment s2e completato."
+iex (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1')
