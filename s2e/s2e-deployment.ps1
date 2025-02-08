@@ -20,11 +20,11 @@ $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/h
 
 # Lista delle applicazioni da installare
 $apps = @(
-	  "7zip.7zip",
-    "Google.Chrome",
-		"Microsoft.Office",
-    "Microsoft.VCRedist.2015+.x64",
-    "Microsoft.VCRedist.2015+.x86"
+	"7zip.7zip",
+	"Google.Chrome",
+	"Microsoft.Office",
+	"Microsoft.VCRedist.2015+.x64",
+	"Microsoft.VCRedist.2015+.x86"
 )
 
 # Import del modulo winget remote
