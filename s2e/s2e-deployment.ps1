@@ -54,4 +54,4 @@ Start-Sleep -Seconds 1
 winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
 
 log "deployment s2e completato."
-pwsh -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1| iex"
+irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1| iex
