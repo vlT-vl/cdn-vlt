@@ -5,7 +5,7 @@
 Add-Type -AssemblyName PresentationFramework
 
 # Percorso del file locale
-$filePath = "$env:USERPROFILE\deployment-s2e.log"
+$filePath = "deployment-s2e.txt"
 
 # Creazione della finestra
 $window = New-Object System.Windows.Window
