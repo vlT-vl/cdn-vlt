@@ -2,6 +2,13 @@
 # s2e deployment script
 #########################################################################################################################################################
 
+# Richiesta dei privilegi Amministrativi se necessario
+If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host "Rilanciare lo script con privilegi amministrativi!" -ForegroundColor Red
+    Start-Process powershell.exe "-File $($MyInvocation.MyCommand.Path)" -Verb RunAs
+    Exit
+}
+
 # Definizione del file di log
 $logFile = "deployment-s2e.txt"
 
@@ -46,5 +53,5 @@ log ""
 Start-Sleep -Seconds 1
 winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
 
-iex (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1')
 log "deployment s2e completato."
+pwsh -NoProfile -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1| iex"
