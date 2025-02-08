@@ -29,10 +29,10 @@ $apps = @(
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
+    Start-Sleep -Seconds 1
 	  log ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
     winget install $app --silent --accept-package-agreements --accept-source-agreements
-    Start-Sleep -Seconds 1
 }
 # Import del modulo winget remote
 log "importo il modulo remoto 'winget remote all'interno della sessione"
