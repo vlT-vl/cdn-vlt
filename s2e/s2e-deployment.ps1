@@ -40,7 +40,7 @@ foreach ($app in $apps) {
 # Import del modulo winget remote
 log "Importo il modulo remoto 'winget remote' all'interno della sessione"
 try {
-    irm https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1 | iex
+    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1" | Invoke-Expression
     log "Modulo 'winget remote' caricato correttamente."
 } catch {
     log "Errore nell'importazione del modulo 'winget remote'."
