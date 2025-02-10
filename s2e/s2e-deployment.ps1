@@ -46,6 +46,11 @@ foreach ($app in $apps) {
     log "Installazione di $app in corso..." -ForegroundColor Cyan
     winget install $app --silent --accept-package-agreements --accept-source-agreements
 }
+
+# Se attivo killo il processo di UniGetUI.ExecutionPolicy
+Start-Sleep -Seconds 1
+Get-Process -Name "UniGetUI" -ErrorAction SilentlyContinue | Stop-Process -Force
+
 # Import del modulo winget remote
 log "Importo il modulo remoto 'winget remote' all'interno della sessione"
 try {
@@ -54,9 +59,6 @@ try {
 } catch {
     log "Errore nell'importazione del modulo 'winget remote'."
 }
-
-# Se attivo killo il processo di UniGetUI.ExecutionPolicy
-Get-Process -Name "UniGetUI" -ErrorAction SilentlyContinue | Stop-Process -Force
 
 
 # installazione con il modulo winget remote di sophos s2e
