@@ -71,7 +71,7 @@ try {
 # Dpeloyment completato mostro form di completamento
 try {
     log "deployment s2e completato."
-    irm https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1 | iex && exit
+    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1" | Invoke-Expression && exit
 } catch {
     log "Errore nel recupero del deployment form."
 }
