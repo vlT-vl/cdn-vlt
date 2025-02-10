@@ -47,7 +47,7 @@ foreach ($app in $apps) {
     winget install $app --silent --accept-package-agreements --accept-source-agreements
 }
 
-# Se attivo killo il processo di UniGetUI.ExecutionPolicy
+# Se attivo forzo chiusura del processo di UniGetUI
 Start-Sleep -Seconds 1
 Get-Process -Name "UniGetUI" -ErrorAction SilentlyContinue | Stop-Process -Force
 
