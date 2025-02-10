@@ -2,6 +2,8 @@
 # s2e deployment script
 #########################################################################################################################################################
 
+Start-Sleep -Seconds 30
+
 # Ciclo while che attenge che winget risponda prima di proseguire con lo script
 $wingetPath = "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe"
 # Ciclo di attesa finché winget non è disponibile
