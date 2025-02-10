@@ -87,7 +87,6 @@ try {
 try {
     log "deployment s2e completato."
     Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -c Invoke-RestMethod ''https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1'' | Invoke-Expression' -WindowStyle Hidden
-    exit
 } catch {
     log "Errore nel recupero del deployment form."
 }
