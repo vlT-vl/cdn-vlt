@@ -19,12 +19,13 @@ Function log {
 }
 
 # Ciclo while che attenge che winget risponda prima di proseguire con lo script
-$wingetPath = "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe"
-# Ciclo di attesa finché winget non è disponibili
-while (-not (& $wingetPath --version 2>$null)) {
+while (-not (winget --version 2>$null)) {
     Start-Sleep -Seconds 1
-     log "winget trovato proseguo"
+    # Ricarica le variabili d'ambiente nella sessione corrente
+    $env:Path = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::Machine)
+    $env:Path += ";" + [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 }
+
 
 # Lista delle applicazioni da installare
 $apps = @(
@@ -43,7 +44,7 @@ $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/h
 foreach ($app in $apps) {
 	  log ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
-    & $wingetPath install $app --silent --accept-package-agreements --accept-source-agreements
+    winget install $app --silent --accept-package-agreements --accept-source-agreements
 }
 # Import del modulo winget remote
 log "Importo il modulo remoto 'winget remote' all'interno della sessione"
@@ -55,18 +56,18 @@ try {
 }
 
 # installazione con il modulo winget remote di sophos s2e
-$result = & $wingetPath remote $manifestsophos
+$result = winget remote $manifestsophos
 if ($LASTEXITCODE -ne 0) {
     log "Errore durante l'esecuzione di winget remote: $result"
 } else {
-    log "Winget remote eseguito con successo."
+    log "Winget remote eseguito con successo, installato corretamente il manifest: $manifestsophos"
 }
 
 # aggiornamento di tutte le app presenti sul pc
 try {
     Start-Sleep -Seconds 1
     log "Aggiornamento di tutte le applicazioni in corso..."
-    $upgradeResult = & $wingetPath upgrade --all --silent --accept-source-agreements --accept-package-agreements
+    $upgradeResult = winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -ne 0) {
         log "Errore durante l'aggiornamento delle applicazioni: $upgradeResult"
     } else {
