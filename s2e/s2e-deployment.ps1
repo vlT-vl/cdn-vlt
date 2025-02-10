@@ -4,20 +4,18 @@
 
 # Definizione del file di log
 $logFile = "deployment-s2e.txt"
-$transcriptlogFile = "deployments2e-transcript.txt"
 
 # Funzione per registrare i log sia su file che in console
 Function log {
     Param ([string]$Message)
     $timestamp = Get-Date -Format "dd/MM/yyyy HH:mm:ss"
-    $logEntry = "$timestamp - $Message"
+    $logEntry = "[$timestamp] $Message"
     Write-Output $logEntry
-    Add-Content -Path $logFile -Value $logEntry
 }
 
 # Abilita il logging automatico di tutti i comandi eseguiti
 if (-not $TranscriptEnabled) {
-    Start-Transcript -Path $transcriptlogFile -Append
+    Start-Transcript -Path $logFile -Append
     $Global:TranscriptEnabled = $true
 }
 
@@ -27,7 +25,8 @@ $apps = @(
 	"Google.Chrome",
 	"Microsoft.Office",
 	"Microsoft.VCRedist.2015+.x64",
-	"Microsoft.VCRedist.2015+.x86"
+	"Microsoft.VCRedist.2015+.x86",
+  "Microsoft.PowerShell"
 )
 $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 
