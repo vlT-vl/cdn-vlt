@@ -2,6 +2,8 @@
 # s2e deployment script
 #########################################################################################################################################################
 
+Start-Sleep -Seconds 10
+
 # Ciclo while che attenge che winget risponda prima di proseguire con lo script
 while (-not (winget --version 2>$null)) { Start-Sleep -Seconds 1 }
 
