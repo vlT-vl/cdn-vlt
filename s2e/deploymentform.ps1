@@ -9,7 +9,7 @@ $filePath = "$env:USERPROFILE\deployment-s2e.txt"
 
 # Creazione della finestra
 $window = New-Object System.Windows.Window
-$window.Title = "Deployment Completato"
+$window.Title = "Deployment S2E Completato"
 $window.Width = 400
 $window.Height = 150
 $window.WindowStartupLocation = "CenterScreen"
@@ -21,14 +21,14 @@ $stackPanel.Margin = 10
 
 # Creazione dell'etichetta con il messaggio
 $label = New-Object System.Windows.Controls.TextBlock
-$label.Text = "il Deploy del PC è stato completato"
+$label.Text = "Deployment S2E del PC è stato completato"
 $label.Margin = "0,0,0,10"
 $label.FontSize = 14
 $label.TextAlignment = "Center"
 
 # Creazione del link al file
 $link = New-Object System.Windows.Controls.TextBlock
-$link.Text = "Apri il file di log"
+$link.Text = "Visualizza Log Installazione"
 $link.FontSize = 14
 $link.Foreground = "Blue"
 $link.TextDecorations = [System.Windows.TextDecorations]::Underline
