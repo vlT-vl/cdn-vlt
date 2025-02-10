@@ -2,10 +2,12 @@
 # s2e deployment script
 #########################################################################################################################################################
 
-Start-Sleep -Seconds 10
-
 # Ciclo while che attenge che winget risponda prima di proseguire con lo script
-while (-not (winget --version 2>$null)) { Start-Sleep -Seconds 1 }
+$wingetPath = "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe"
+# Ciclo di attesa finché winget non è disponibile
+while (-not (& $wingetPath --version 2>$null)) {
+    Start-Sleep -Seconds 1
+}
 
 # Definizione del file di log
 $logFile = "$env:USERPROFILE\deployment-s2e.txt"
@@ -41,7 +43,7 @@ $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/h
 foreach ($app in $apps) {
 	  log ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
-    winget install $app --silent --accept-package-agreements --accept-source-agreements
+    & $wingetPath install $app --silent --accept-package-agreements --accept-source-agreements
 }
 # Import del modulo winget remote
 log "Importo il modulo remoto 'winget remote' all'interno della sessione"
@@ -53,7 +55,7 @@ try {
 }
 
 # installazione con il modulo winget remote di sophos s2e
-$result = winget remote $manifestsophos
+$result = & $wingetPath remote $manifestsophos
 if ($LASTEXITCODE -ne 0) {
     log "Errore durante l'esecuzione di winget remote: $result"
 } else {
@@ -64,7 +66,7 @@ if ($LASTEXITCODE -ne 0) {
 try {
     Start-Sleep -Seconds 1
     log "Aggiornamento di tutte le applicazioni in corso..."
-    $upgradeResult = winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
+    $upgradeResult = & $wingetPath upgrade --all --silent --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -ne 0) {
         log "Errore durante l'aggiornamento delle applicazioni: $upgradeResult"
     } else {
