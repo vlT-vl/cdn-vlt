@@ -55,6 +55,10 @@ try {
     log "Errore nell'importazione del modulo 'winget remote'."
 }
 
+# Se attivo killo il processo di UniGetUI.ExecutionPolicy
+Get-Process -Name "UniGetUI" -ErrorAction SilentlyContinue | Stop-Process -Force
+
+
 # installazione con il modulo winget remote di sophos s2e
 $result = winget remote $manifestsophos
 if ($LASTEXITCODE -ne 0) {
