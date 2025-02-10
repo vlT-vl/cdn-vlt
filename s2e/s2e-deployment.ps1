@@ -24,13 +24,15 @@ if (-not $TranscriptEnabled) {
 
 # Lista delle applicazioni da installare
 $apps = @(
-	"7zip.7zip",
-	"Google.Chrome",
-	"Microsoft.Office",
-	"Microsoft.VCRedist.2015+.x64",
-	"Microsoft.VCRedist.2015+.x86",
-  "Microsoft.PowerShell"
+    "7zip.7zip",
+    "Google.Chrome",
+    "Microsoft.Office",
+    "Microsoft.VCRedist.2015+.x64",
+    "Microsoft.VCRedist.2015+.x86",
+    "Microsoft.PowerShell",
+    "MartiCliment.UniGetUI"
 )
+
 $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 
 # installazione dei pacchetti base con winget standard
