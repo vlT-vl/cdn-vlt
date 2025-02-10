@@ -21,7 +21,7 @@ $stackPanel.Margin = 10
 
 # Creazione dell'etichetta con il messaggio
 $label = New-Object System.Windows.Controls.TextBlock
-$label.Text = "Deployment S2E del PC è stato completato"
+$label.Text = "Deploy S2E del PC completato"
 $label.Margin = "0,0,0,10"
 $label.FontSize = 14
 $label.TextAlignment = "Center"
