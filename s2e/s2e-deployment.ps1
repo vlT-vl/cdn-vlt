@@ -1,18 +1,14 @@
 #########################################################################################################################################################
 # s2e deployment script
 #########################################################################################################################################################
-
-Start-Sleep -Seconds 30
-
-# Ciclo while che attenge che winget risponda prima di proseguire con lo script
-$wingetPath = "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe"
-# Ciclo di attesa finché winget non è disponibile
-while (-not (& $wingetPath --version 2>$null)) {
-    Start-Sleep -Seconds 1
-}
-
 # Definizione del file di log
 $logFile = "$env:USERPROFILE\deployment-s2e.txt"
+
+# Abilita il logging automatico di tutti i comandi eseguiti
+if (-not $TranscriptEnabled) {
+    Start-Transcript -Path $logFile -Append
+    $Global:TranscriptEnabled = $true
+}
 
 # Funzione per registrare i log sia su file che in console
 Function log {
@@ -22,10 +18,12 @@ Function log {
     Write-Output $logEntry
 }
 
-# Abilita il logging automatico di tutti i comandi eseguiti
-if (-not $TranscriptEnabled) {
-    Start-Transcript -Path $logFile -Append
-    $Global:TranscriptEnabled = $true
+# Ciclo while che attenge che winget risponda prima di proseguire con lo script
+$wingetPath = "$env:LOCALAPPDATA\Microsoft\WindowsApps\winget.exe"
+# Ciclo di attesa finché winget non è disponibili
+while (-not (& $wingetPath --version 2>$null)) {
+    Start-Sleep -Seconds 1
+     log "winget trovato proseguo"
 }
 
 # Lista delle applicazioni da installare
