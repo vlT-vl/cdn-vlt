@@ -2,8 +2,11 @@
 # s2e deployment script
 #########################################################################################################################################################
 
+# Ciclo while che attenge che winget risponda prima di proseguire con lo script
+while (-not (winget --version 2>$null)) { Start-Sleep -Seconds 1 }
+
 # Definizione del file di log
-$logFile = "deployment-s2e.txt"
+$logFile = "$env:USERPROFILE\deployment-s2e.txt"
 
 # Funzione per registrare i log sia su file che in console
 Function log {
@@ -32,7 +35,6 @@ $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/h
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
-    Start-Sleep -Seconds 1
 	  log ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
     winget install $app --silent --accept-package-agreements --accept-source-agreements
@@ -56,7 +58,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # aggiornamento di tutte le app presenti sul pc
 try {
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 1
     log "Aggiornamento di tutte le applicazioni in corso..."
     $upgradeResult = winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -ne 0) {
@@ -71,7 +73,10 @@ try {
 # Dpeloyment completato mostro form di completamento
 try {
     log "deployment s2e completato."
-    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1" | Invoke-Expression; exit
+    Start-Job -ScriptBlock {
+    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/s2e/deploymentform.ps1" | Invoke-Expression
+    }
+    exit
 } catch {
     log "Errore nel recupero del deployment form."
 }
