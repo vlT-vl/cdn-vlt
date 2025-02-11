@@ -71,7 +71,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # aggiornamento di tutte le app presenti sul pc
 try {
-    Start-Sleep -Seconds 1
+    Start-Sleep -Seconds 10
     log "Aggiornamento di tutte le applicazioni in corso..."
     $upgradeResult = winget upgrade --all --silent --accept-source-agreements --accept-package-agreements
     if ($LASTEXITCODE -ne 0) {
