@@ -88,7 +88,7 @@ try {
 try {
     Start-Sleep -Seconds 1
     log "Rimozione del pacchetto DevHome..."
-    $removePackage = winget uninstall --id Microsoft.DebHome --silent
+    $removePackage = winget uninstall --id Microsoft.DevHome --silent
     if ($LASTEXITCODE -ne 0) {
         log "Errore durante la rimozione del pacchetto: $removePackage"
     } else {
