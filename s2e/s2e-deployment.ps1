@@ -80,8 +80,24 @@ try {
         log "Aggiornamento delle applicazioni completato con successo."
     }
 } catch {
-    log "Eccezione catturata durante l'aggiornamento delle applicazioni: $_"
+    log "Eccezione durante l'aggiornamento delle applicazioni: $_"
 }
+
+
+# rimozione di DevHome
+try {
+    Start-Sleep -Seconds 1
+    log "Rimozione del pacchetto DevHome..."
+    $removePackage = winget uninstall --id Microsoft.DebHome --silent
+    if ($LASTEXITCODE -ne 0) {
+        log "Errore durante la rimozione del pacchetto: $removePackage"
+    } else {
+        log "Rimozione del pacchetto DevHome completata con successo."
+    }
+} catch {
+    log "Eccezione durante la rimozione del pacchetto: $_"
+}
+
 
 # Dpeloyment completato mostro form di completamento
 try {
