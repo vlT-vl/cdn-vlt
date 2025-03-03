@@ -1,7 +1,7 @@
 #########################################################################################################################################################
 # s2e deployment script
 # last revision:
-# 01/03/2025
+# 03/03/2025
 # lastchange:
 # @ script revision
 #########################################################################################################################################################
@@ -44,13 +44,13 @@ while (-not (winget --version 2>$null)) {
 # Lista delle applicazioni da installare
 $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 $apps = @(
-    "7zip.7zip",
-    "Google.Chrome",
-		"Microsoft.PowerShell",
-    "Microsoft.VCRedist.2015+.x64",
-    "Microsoft.VCRedist.2015+.x86",
-    "MartiCliment.UniGetUI",
-		"Microsoft.Office",
+  "7zip.7zip",
+  "Google.Chrome",
+  "Microsoft.PowerShell",
+  "Microsoft.VCRedist.2015+.x64",
+  "Microsoft.VCRedist.2015+.x86",
+  "MartiCliment.UniGetUI",
+  "Microsoft.Office"
 )
 
 # installazione dei pacchetti base con winget standard
