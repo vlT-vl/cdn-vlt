@@ -1,8 +1,23 @@
 #########################################################################################################################################################
 # s2e deployment script
+# last revision:
+# 01/03/2025
+# lastchange:
+# @ script revision
 #########################################################################################################################################################
-# Definizione del file di log
-$logFile = "$env:USERPROFILE\deployment-s2e.txt"
+
+# Definizione del file di log e output
+$logname = "deployment-s2e.txt"
+$logFolder = "$env:USERPROFILE\.log"
+$logFile = "$logFolder\$logname"
+
+# Verifica esistenza file e log folder
+if (-not (Test-Path -Path $logFolder)) {
+    New-Item -Path $logFolder -ItemType Directory
+}
+if (Test-Path $logFile) {
+    Remove-Item $logFile -Force
+}
 
 # Abilita il logging automatico di tutti i comandi eseguiti
 if (-not $TranscriptEnabled) {
@@ -26,25 +41,24 @@ while (-not (winget --version 2>$null)) {
     $env:Path += ";" + [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User)
 }
 
-
 # Lista delle applicazioni da installare
+$manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 $apps = @(
     "7zip.7zip",
     "Google.Chrome",
-    "Microsoft.Office",
+		"Microsoft.PowerShell",
     "Microsoft.VCRedist.2015+.x64",
     "Microsoft.VCRedist.2015+.x86",
-    "Microsoft.PowerShell",
-    "MartiCliment.UniGetUI"
+    "MartiCliment.UniGetUI",
+		"Microsoft.Office",
 )
-
-$manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
-	  log ""
+	  Write-Output ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
     winget install $app --silent --accept-package-agreements --accept-source-agreements
+    Write-Output ""
 }
 
 # Se attivo forzo chiusura del processo di UniGetUI
@@ -59,7 +73,6 @@ try {
 } catch {
     log "Errore nell'importazione del modulo 'winget remote'."
 }
-
 
 # installazione con il modulo winget remote di sophos s2e
 $result = winget remote $manifestsophos
@@ -80,9 +93,8 @@ try {
         log "Aggiornamento delle applicazioni completato con successo."
     }
 } catch {
-    log "Eccezione durante l'aggiornamento delle applicazioni: $_"
+    log "Eccezione catturata durante l'aggiornamento delle applicazioni: $_"
 }
-
 
 # rimozione di DevHome
 try {
@@ -98,6 +110,8 @@ try {
     log "Eccezione durante la rimozione del pacchetto: $_"
 }
 
+$Global:TranscriptEnabled = $false
+Stop-Transcript
 
 # Dpeloyment completato mostro form di completamento
 try {
