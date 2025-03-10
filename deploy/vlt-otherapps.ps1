@@ -42,28 +42,28 @@ Function log {
 
 # Lista delle applicazioni da installare
 $apps = @(
-	"KDE.Krita"
+"KDE.Krita"
 )
 
 $msapps = @(
-	"9NT1R1C2HH7J", # chatgpt msstore
-	"9NKSQGP7F2NH" # whatsapp msstore
+"9NT1R1C2HH7J", # chatgpt msstore
+"9NKSQGP7F2NH" # whatsapp msstore
 )
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
-	Write-Output ""
-	log "Installazione di $app in corso..." -ForegroundColor Cyan
-	winget install $app --silent --accept-package-agreements --accept-source-agreements
-	Write-Output ""
+Write-Output ""
+log "Installazione di $app in corso..." -ForegroundColor Cyan
+winget install $app --silent --accept-package-agreements --accept-source-agreements
+Write-Output ""
 }
 
 # installazione dei pacchetti msstore con winget
 foreach ($msapp in $msapps) {
-	Write-Output ""
-	log "Installazione di $msapp in corso..." -ForegroundColor Cyan
-	winget.exe install --id $msapp --exact --source msstore --accept-source-agreements --disable-interactivity --silent --accept-package-agreements --force
-	Write-Output ""
+Write-Output ""
+log "Installazione di $msapp in corso..." -ForegroundColor Cyan
+winget.exe install --id $msapp --exact --source msstore --accept-source-agreements --disable-interactivity --silent --accept-package-agreements --force
+Write-Output ""
 }
 
 log "Installazione otherapps completata."

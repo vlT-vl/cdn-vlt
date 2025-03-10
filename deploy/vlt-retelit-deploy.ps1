@@ -42,14 +42,14 @@ Function log {
 
 # Lista delle applicazioni da installare
 $apps = @(
-	"7zip.7zip",
-	"Zen-Team.Zen-Browser",
-	"Bitwarden.Bitwarden",
-	"Flow-Launcher.Flow-Launcher",
-	"Eugeny.Tabby",
-	"MartiCliment.UniGetUI",
-	"Robware.RVTools",
-	"ONLYOFFICE.DesktopEditors"
+"7zip.7zip",
+"Zen-Team.Zen-Browser",
+"Bitwarden.Bitwarden",
+"Flow-Launcher.Flow-Launcher",
+"Eugeny.Tabby",
+"MartiCliment.UniGetUI",
+"Robware.RVTools",
+"ONLYOFFICE.DesktopEditors"
 )
 
 # installazione dei pacchetti base con winget standard
