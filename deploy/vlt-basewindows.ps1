@@ -3,7 +3,7 @@
 # last revision:
 # 10/03/2025
 # lastchange:
-# @ added zflow laucher
+# @ added Git
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
