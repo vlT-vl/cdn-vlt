@@ -53,10 +53,10 @@ $apps = @(
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
-	  Write-Output ""
-    log "Installazione di $app in corso..." -ForegroundColor Cyan
-    winget install $app --silent --accept-package-agreements --accept-source-agreements
-    Write-Output ""
+Write-Output ""
+log "Installazione di $app in corso..." -ForegroundColor Cyan
+winget install $app --silent --accept-package-agreements --accept-source-agreements
+Write-Output ""
 }
 
 
