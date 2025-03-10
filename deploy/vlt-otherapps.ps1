@@ -52,18 +52,18 @@ $msapps = @(
 
 # installazione dei pacchetti base con winget standard
 foreach ($app in $apps) {
-	  Write-Output ""
-    log "Installazione di $app in corso..." -ForegroundColor Cyan
-    winget install $app --silent --accept-package-agreements --accept-source-agreements
-    Write-Output ""
+	Write-Output ""
+	log "Installazione di $app in corso..." -ForegroundColor Cyan
+	winget install $app --silent --accept-package-agreements --accept-source-agreements
+	Write-Output ""
 }
 
 # installazione dei pacchetti msstore con winget
 foreach ($msapp in $msapps) {
-	  Write-Output ""
-    log "Installazione di $msapp in corso..." -ForegroundColor Cyan
-		winget.exe install --id $msapp --exact --source msstore --accept-source-agreements --disable-interactivity --silent --accept-package-agreements --force
-    Write-Output ""
+	Write-Output ""
+	log "Installazione di $msapp in corso..." -ForegroundColor Cyan
+	winget.exe install --id $msapp --exact --source msstore --accept-source-agreements --disable-interactivity --silent --accept-package-agreements --force
+	Write-Output ""
 }
 
 log "Installazione otherapps completata."
