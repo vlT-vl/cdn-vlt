@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt workapp deploy S2E
 # last revision:
-# 01/03/2025
+# 11/03/2025
 # lastchange:
-# @ added discord
+# @ update winget install cmds
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -59,7 +59,7 @@ $apps = @(
 foreach ($app in $apps) {
 	  Write-Output ""
     log "Installazione di $app in corso..." -ForegroundColor Cyan
-    winget install $app --silent --accept-package-agreements --accept-source-agreements
+		winget install --id $app --exact --source winget --accept-source-agreements --disable-interactivity --silent  --accept-package-agreements --force
     Write-Output ""
 }
 

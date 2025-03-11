@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt otherapps script
 # last revision:
-# 10/03/2025
+# 11/03/2025
 # lastchange:
-# @ new script
+# @ update winget install cmds
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -42,7 +42,9 @@ Function log {
 
 # Lista delle applicazioni da installare
 $apps = @(
-"KDE.Krita"
+"KDE.Krita",
+"Obsidian.Obsidian",
+"MartiCliment.UniGetUI"
 )
 
 $msapps = @(
@@ -54,7 +56,7 @@ $msapps = @(
 foreach ($app in $apps) {
 Write-Output ""
 log "Installazione di $app in corso..." -ForegroundColor Cyan
-winget install $app --silent --accept-package-agreements --accept-source-agreements
+winget install --id $app --exact --source winget --accept-source-agreements --disable-interactivity --silent  --accept-package-agreements --force
 Write-Output ""
 }
 
