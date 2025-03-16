@@ -11,9 +11,13 @@ per eseguire script da remoto è sufficente eseguire uno dei comandi di seguito:
 
 ```irm 'https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/deploy/vlt-basewindows.ps1' | iex```
 
-###### otherapps
+###### otherapps-vlt
 
 ```irm 'https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/deploy/vlt-otherapps.ps1' | iex```
+
+###### sellscript
+
+```irm 'https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/deploy/vlt-sellscript.ps1' | iex```
 
 
 ###### retelit deploy
