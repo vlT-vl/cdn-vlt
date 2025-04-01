@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt basewindows script
 # last revision:
-# 11/03/2025
+# 01/04/2025
 # lastchange:
-# @ update winget install cmds
+# @ update renmove git from default
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -47,7 +47,6 @@ $apps = @(
 "Bitwarden.Bitwarden",
 "Flow-Launcher.Flow-Launcher",
 "Eugeny.Tabby",
-"Git.Git",
 "Pulsar-Edit.Pulsar"
 )
 
