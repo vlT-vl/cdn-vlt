@@ -3,7 +3,7 @@
 # last revision:
 # 01/04/2025
 # lastchange:
-# @ update renmove git from default
+# @ update remove git
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
