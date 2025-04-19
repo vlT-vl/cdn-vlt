@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt workapp deploy S2E
 # last revision:
-# 11/03/2025
+# 19/04/2025
 # lastchange:
-# @ update winget install cmds
+# @ update pkg + add set hostname
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -14,6 +14,7 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 
 $logname = "vlt-s2e-deploy.txt"
 $logFolder = "$env:USERPROFILE\.log"
+$hostnamepc = "C-IT01S2E257-PC"
 
 # Definizione del file di log e output
 $logFile = "$logFolder\$logname"
@@ -40,6 +41,9 @@ Function log {
     Write-Output $logEntry
 }
 
+# Setto hostname del pc
+Rename-Computer -NewName $hostnamepc -Force
+
 # Lista delle applicazioni da installare
 $apps = @(
 "7zip.7zip",
@@ -50,7 +54,6 @@ $apps = @(
 "OpenJS.NodeJS",
 "MartiCliment.UniGetUI",
 "Flow-Launcher.Flow-Launcher",
-"Discord.Discord",
 "Pulsar-Edit.Pulsar",
 "Microsoft.Office"
 )

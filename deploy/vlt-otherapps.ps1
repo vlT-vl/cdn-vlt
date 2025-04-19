@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt otherapps script
 # last revision:
-# 11/03/2025
+# 19/04/2025
 # lastchange:
-# @ update winget install cmds
+# @ update pkg add nodejs & git
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -44,7 +44,9 @@ Function log {
 $apps = @(
 "KDE.Krita",
 "Obsidian.Obsidian",
-"MartiCliment.UniGetUI"
+"MartiCliment.UniGetUI",
+"Git.Git",
+"OpenJS.NodeJS"
 )
 
 $msapps = @(
