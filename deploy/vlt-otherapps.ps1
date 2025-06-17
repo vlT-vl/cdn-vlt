@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt otherapps script
 # last revision:
-# 19/04/2025
+# 17/06/2025
 # lastchange:
-# @ update pkg add nodejs & git
+# @ update remove obsidian & add spotify in msapps
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -43,7 +43,6 @@ Function log {
 # Lista delle applicazioni da installare
 $apps = @(
 "KDE.Krita",
-"Obsidian.Obsidian",
 "MartiCliment.UniGetUI",
 "Git.Git",
 "OpenJS.NodeJS"
@@ -51,6 +50,7 @@ $apps = @(
 
 $msapps = @(
 "9NT1R1C2HH7J", # chatgpt msstore
+"9NCBCSZSJRSB", # spotify msstore
 "9NKSQGP7F2NH" # whatsapp msstore
 )
 

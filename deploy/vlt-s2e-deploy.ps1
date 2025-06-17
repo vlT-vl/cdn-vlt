@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt workapp deploy S2E
 # last revision:
-# 19/04/2025
+# 17/06/2025
 # lastchange:
-# @ update pkg + add set hostname
+# @ update added msapps & app TranslucentTB
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -55,7 +55,14 @@ $apps = @(
 "MartiCliment.UniGetUI",
 "Flow-Launcher.Flow-Launcher",
 "Pulsar-Edit.Pulsar",
+"CharlesMilette.TranslucentTB",
 "Microsoft.Office"
+)
+
+$msapps = @(
+"9NT1R1C2HH7J", # chatgpt msstore
+"9NCBCSZSJRSB", # spotify msstore
+"9NKSQGP7F2NH" # whatsapp msstore
 )
 
 # installazione dei pacchetti base con winget standard
@@ -66,6 +73,13 @@ foreach ($app in $apps) {
     Write-Output ""
 }
 
+# installazione dei pacchetti msstore con winget
+foreach ($msapp in $msapps) {
+Write-Output ""
+log "Installazione di $msapp in corso..." -ForegroundColor Cyan
+winget.exe install --id $msapp --exact --source msstore --accept-source-agreements --disable-interactivity --silent --accept-package-agreements --force
+Write-Output ""
+}
 
 # aggiornamento di tutte le app presenti sul pc
 try {
