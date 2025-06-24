@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # vlt basewindows script
 # last revision:
-# 17/06/2025
+# 24/06/2025
 # lastchange:
-# @ update added TranslucentTB
+# @ update removed TranslucentTB
 #########################################################################################################################################################
 
 # Richiesta dei privilegi Amministrativi se necessario
@@ -47,8 +47,7 @@ $apps = @(
 "Bitwarden.Bitwarden",
 "Flow-Launcher.Flow-Launcher",
 "Eugeny.Tabby",
-"Pulsar-Edit.Pulsar",
-"CharlesMilette.TranslucentTB"
+"Pulsar-Edit.Pulsar"
 )
 
 # installazione dei pacchetti base con winget standard

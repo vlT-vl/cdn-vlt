@@ -1,7 +1,7 @@
 #########################################################################################################################################################
 # vlt otherapps script
 # last revision:
-# 17/06/2025
+# 24/06/2025
 # lastchange:
 # @ update remove obsidian & add spotify in msapps
 #########################################################################################################################################################
@@ -45,13 +45,15 @@ $apps = @(
 "KDE.Krita",
 "MartiCliment.UniGetUI",
 "Git.Git",
-"OpenJS.NodeJS"
+"OpenJS.NodeJS",
+"CharlesMilette.TranslucentTB"
 )
 
 $msapps = @(
 "9NT1R1C2HH7J", # chatgpt msstore
 "9NCBCSZSJRSB", # spotify msstore
-"9NKSQGP7F2NH" # whatsapp msstore
+"9NKSQGP7F2NH", # whatsapp msstore
+"9NBXBP78896Q"  # media flyout
 )
 
 # installazione dei pacchetti base con winget standard
