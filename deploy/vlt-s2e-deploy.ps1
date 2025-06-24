@@ -1,7 +1,7 @@
 #########################################################################################################################################################
 # vlt workapp deploy S2E
 # last revision:
-# 17/06/2025
+# 24/06/2025
 # lastchange:
 # @ update added msapps & app TranslucentTB
 #########################################################################################################################################################
@@ -62,7 +62,8 @@ $apps = @(
 $msapps = @(
 "9NT1R1C2HH7J", # chatgpt msstore
 "9NCBCSZSJRSB", # spotify msstore
-"9NKSQGP7F2NH" # whatsapp msstore
+"9NKSQGP7F2NH", # whatsapp msstore
+"9NBXBP78896Q"  # media flyout msstore
 )
 
 # installazione dei pacchetti base con winget standard
