@@ -1,0 +1,265 @@
+#!/usr/bin/env bash
+set -euo pipefail
+echo
+echo debian13-init-vlt
+echo -------------------------------------------
+echo ultimo update 28/11/2025
+echo developed by Veronesi Lorenzo
+echo -------------------------------------------
+echo
+
+APPSBASE=("app.zen_browser.zen")
+APPSVLT=("app.zen_browser.zen" "com.bitwarden.desktop" "com.spotify.Client")
+APPSWORK=("app.zen_browser.zen" "com.bitwarden.desktop" "org.onlyoffice.desktopeditors" "com.spotify.Client")
+
+export DEBIAN_FRONTEND=noninteractive
+USER_NAME="${SUDO_USER:-$(id -un)}"
+
+DEBIANMODE=0
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --base)
+      DEBIANMODE=1
+      shift
+      ;;
+    --vlt)
+      DEBIANMODE=2
+      shift
+      ;;
+    --work)
+      DEBIANMODE=3
+      shift
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+# ---- LOGGING COMPLETO --------------------------------------------------------
+SCRIPT_BASENAME="$(basename "$0" .sh)"
+DATE_TAG="$(date +%d%m%Y)"
+USER_HOME="$(getent passwd "$USER_NAME" | cut -d: -f6 || true)"
+USER_HOME="${USER_HOME:-/home/$USER_NAME}"
+LOG_DIR="${USER_HOME}/.log"
+LOG_FILE="${LOG_DIR}/${DATE_TAG}-${SCRIPT_BASENAME}.log"
+mkdir -p "$LOG_DIR"
+exec > >(tee -a "$LOG_FILE") 2>&1
+chown -R "$USER_NAME":"$USER_NAME" "$LOG_DIR" || true
+echo "== $(date -Is) | Logging su: $LOG_FILE =="
+
+# ---- contatore step dinamico -------------------------------------------------
+# base: update, purge ifupdown, sanitize interfaces, install base,
+# (flatpak 2 step), (apps 3 step se presenti), enable svcs, xdg dirs, set theme, cleanup
+TOTAL=21
+STEP=0
+step() { STEP=$((STEP+1)); echo "[$STEP/$TOTAL] $*"; }
+
+# ---- esecuzione --------------------------------------------------------------
+step "Configuro repository Debian (contrib / non-free / non-free-firmware)…"
+
+# Backup di sicurezza, ma NON blocca lo script se fallisce
+cp /etc/apt/sources.list /etc/apt/sources.list.bak.$(date +%F-%T) 2>/dev/null || true
+
+# Se nel sources.list non c'è ancora 'contrib' o 'non-free',
+# prova ad aggiungerli alle righe di trixie in modo automatico
+if ! grep -q "contrib" /etc/apt/sources.list || ! grep -q "non-free-firmware" /etc/apt/sources.list; then
+  sed -i -E \
+    's/^(deb .*trixie[^ ]* +main)(.*)$/\1 contrib non-free non-free-firmware/' \
+    /etc/apt/sources.list 2>/dev/null || true
+
+  sed -i -E \
+    's/^(deb .*trixie-security[^ ]* +main)(.*)$/\1 contrib non-free non-free-firmware/' \
+    /etc/apt/sources.list 2>/dev/null || true
+
+  sed -i -E \
+    's/^(deb .*trixie-updates[^ ]* +main)(.*)$/\1 contrib non-free non-free-firmware/' \
+    /etc/apt/sources.list 2>/dev/null || true
+fi
+
+step "Aggiorno indici e sistema di base…"
+apt-get update
+apt-get -y full-upgrade
+
+step "Rimuovo ifupdown/ifupdown2 per evitare conflitti con NetworkManager…"
+apt-get -y purge ifupdown ifupdown2 || true
+
+step "Backup e sanitizzazione configurazioni di rete legacy (/etc/network)…"
+TS="$(date +%Y%m%d-%H%M%S)"
+if [[ -f /etc/network/interfaces ]]; then
+  cp -a /etc/network/interfaces "/etc/network/interfaces.bak-${TS}"
+fi
+cat >/etc/network/interfaces <<'EOF'
+auto lo
+iface lo inet loopback
+EOF
+if [[ -d /etc/network/interfaces.d ]]; then
+  tar czf "/etc/network/interfaces.d.bak-${TS}.tgz" -C /etc/network interfaces.d || true
+  mv /etc/network/interfaces.d /etc/network/interfaces.d.disabled || true
+fi
+
+step "Installo firmware e supporto hardware di base…"
+apt-get install -y \
+  firmware-linux firmware-misc-nonfree \
+  firmware-iwlwifi firmware-realtek firmware-atheros firmware-brcm80211 \
+  wpasupplicant rfkill \
+  pciutils usbutils lshw lm-sensors smartmontools \
+  fwupd acpi powertop \
+  fprintd libpam-fprintd \
+  mesa-utils mesa-vulkan-drivers || true
+
+step "Installo microcode CPU (Intel/AMD)…"
+if grep -qi "GenuineIntel" /proc/cpuinfo; then
+  apt-get install -y intel-microcode || true
+elif grep -qi "AuthenticAMD" /proc/cpuinfo; then
+  apt-get install -y amd64-microcode || true
+else
+  echo "CPU non Intel/AMD, salto installazione microcode."
+fi
+
+step "Installazione pacchetti GNOME minimi (senza Recommends)…"
+apt-get install -y --no-install-recommends \
+  gdm3 \
+  gnome-shell \
+  gnome-session \
+  gnome-control-center \
+  gnome-settings-daemon \
+  nautilus \
+  gnome-terminal \
+  gnome-text-editor \
+  gnome-system-monitor \
+  gnome-software \
+  packagekit \
+  gnome-shell-extension-manager \
+  fonts-cantarell \
+  xdg-user-dirs \
+  network-manager \
+  network-manager-gnome \
+  gvfs-backends \
+  gvfs-fuse \
+  pipewire-audio \
+  wireplumber \
+  xwayland \
+  glib-networking \
+  gsettings-desktop-schemas \
+  yaru-theme-icon \
+  dconf-cli \
+  curl \
+  rsync \
+  7zip \
+  bluez \
+  bluez-obexd \
+  gnome-bluetooth-3-common \
+  nano \
+  eog \
+  gnome-tweaks \
+  gnome-sushi \
+  webp-pixbuf-loader \
+  ffmpegthumbnailer \
+  udisks2 \
+  exfatprogs \
+  ntfs-3g \
+  libgdk-pixbuf2.0-bin \
+  evince \
+  ffmpegthumbnailer \
+  tumbler \
+  openssl \
+  openssh-server \
+  gnome-disk-utility \
+  fastfetch \
+  chromium \
+  chromium-codecs-ffmpeg-extra \
+  gnome-remote-desktop || true
+
+  step "Installo rclone"
+  curl https://rclone.org/install.sh | sudo bash
+
+  step "Installo Firewall UFW e abiliti di defatul porte ssh (22/tcp) e rdp (3389/tcp)"
+  if ! command -v ufw >/dev/null 2>&1; then
+    apt-get install -y ufw || true
+  fi
+  yes | ufw enable || true
+  ufw status verbose || true
+  ufw allow 22/tcp || true
+  ufw allow 3389/tcp || true
+
+  step "Installo Flatpak + plugin per GNOME Software…"
+  apt-get install -y --no-install-recommends flatpak gnome-software-plugin-flatpak
+
+  step "Aggiungo il remote Flathub (system-wide, se non presente)…"
+  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true
+
+  step "Aggiungo il remote Flathub (user, se non presente)…"
+  if [ -n "$SUDO_USER" ] && [ "$SUDO_USER" != "root" ]; then
+      sudo -u "$SUDO_USER" flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true
+      sudo -u "$SUDO_USER" flatpak --user update --appstream -y || true
+  else
+      flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo || true
+      flatpak --user update --appstream -y || true
+  fi
+  step "Aggiorno la cache AppStream (system e user)…"
+  flatpak --system update --appstream -y || true
+  flatpak --user update --appstream -y || true
+
+
+  case "${DEBIANMODE}" in
+    1)
+      step "Installazione pacchetti modalità Base"
+      [[ ${#APPSBASE[@]} -gt 0 ]] && flatpak install -y --noninteractive flathub "${APPSBASE[@]}" || true
+      ;;
+    2)
+      step "Installazione pacchetti modalità vlT"
+      [[ ${#APPSVLT[@]} -gt 0 ]] && flatpak install -y --noninteractive flathub "${APPSVLT[@]}" || true
+      ;;
+    3)
+      step "Installazione pacchetti modalità Work"
+      apt-get install -y openfortivpn remmina || true
+      [[ ${#APPSWORK[@]} -gt 0 ]] && flatpak install -y --noninteractive flathub "${APPSWORK[@]}" || true
+      ;;
+    *)
+      ;;
+  esac
+
+step "Imposto sistema e Abilito servizi principali (GDM, NetworkManager, Bluetooth)…"
+systemctl enable gdm.service
+systemctl enable NetworkManager.service
+systemctl enable bluetooth.service
+systemctl enable gnome-remote-desktop
+systemctl enable ssh
+swapoff -a || true
+sysctl -w vm.dirty_bytes=50331648
+sysctl -w vm.dirty_background_bytes=16777216
+
+step "Genero cartelle utente standard (Documenti, Download, ecc.)…"
+sudo -u "$USER_NAME" xdg-user-dirs-update || true
+
+step "Imposto Yaru come tema icone (default di sistema + utente corrente)…"
+mkdir -p /etc/dconf/db/local.d
+cat >/etc/dconf/db/local.d/00-icons-theme <<'EOF'
+[org/gnome/desktop/interface]
+icon-theme='Yaru'
+EOF
+dconf update
+sudo -u "$USER_NAME" dbus-launch gsettings set org.gnome.desktop.interface icon-theme 'Yaru' || true
+
+step "Pulizia e rimozioni…"
+apt-get -y autoremove --purge
+apt-get -y clean
+apt-get -y purge fortune-mod || true
+apt-get -y purge debian-reference-common || true
+
+step "Impostazione del GRUB"
+cp -a /etc/default/grub /etc/default/grub.bak-$(date +%Y%m%d-%H%M%S)
+sed -i -E -e 's/^#?GRUB_TIMEOUT_STYLE=.*/GRUB_TIMEOUT_STYLE=hidden/' -e 's/^#?GRUB_TIMEOUT=.*/GRUB_TIMEOUT=0/' /etc/default/grub
+if grep -q '^GRUB_RECORDFAIL_TIMEOUT=' /etc/default/grub; then sed -i 's/^GRUB_RECORDFAIL_TIMEOUT=.*/GRUB_RECORDFAIL_TIMEOUT=0/' /etc/default/grub; else echo 'GRUB_RECORDFAIL_TIMEOUT=0' >> /etc/default/grub; fi
+update-grub
+
+echo "Installazione completata!"
+echo "Log salvato in: $LOG_FILE"
+echo "Il sistema si riavvierà tra 5 secondi… (Ctrl+C per annullare)"
+echo " "
+if [[ $DEBIANMODE -eq 3 ]]; then
+echo "Per le VPN FortiClient è installato il pacchetto 'openfortivpn'. File di configurazione di esempio: /etc/openfortivpn/config"
+echo "Puoi creare più file di configurazione e avviare la VPN con: 'sudo openfortivpn -c ./percorso/mia-vpn.conf'"
+fi
+reboot
