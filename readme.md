@@ -7,6 +7,7 @@ per eseguire script da remoto è sufficente eseguire uno dei comandi di seguito:
 ####  linux 
 ###### &rarr; contiene script di deployment linux vlt
 
+###### debian13-init
 ```curl -fsSL https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/linux/debian13-init | bash -s``` \
 &rarr; accetta parametri: --base / --vlt / --work
 
