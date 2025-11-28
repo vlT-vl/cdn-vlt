@@ -9,7 +9,9 @@ per eseguire script da remoto è sufficente eseguire uno dei comandi di seguito:
 
 ###### debian13-init
 ```curl -fsSL https://raw.githubusercontent.com/vlT-vl/cdn-vlt/refs/heads/main/linux/debian13-init | bash -s``` \
-&rarr; accetta parametri: --base / --vlt / --work
+&rarr; accetta parametri: --base | --vlt | --work
+
+es: curl -fsSL "URL_del_tuo_script" | bash -s -- [parametro]
 
 ####  s2e 
 ###### &rarr; contiene tutto il necessario su CDN per automation deployment S2E
