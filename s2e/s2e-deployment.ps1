@@ -1,9 +1,9 @@
 #########################################################################################################################################################
 # s2e deployment script
 # last revision:
-# 03/03/2025
+# 11/05/2026
 # lastchange:
-# @ script revision
+# @ script revision - remove sophos
 #########################################################################################################################################################
 
 # Definizione del file di log e output
@@ -42,7 +42,7 @@ while (-not (winget --version 2>$null)) {
 }
 
 # Lista delle applicazioni da installare
-$manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
+# $manifestsophos = "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/manifest/sophos-s2e.yaml"
 $apps = @(
   "7zip.7zip",
   "Google.Chrome",
@@ -66,13 +66,13 @@ Start-Sleep -Seconds 1
 Get-Process -Name "UniGetUI" -ErrorAction SilentlyContinue | Stop-Process -Force
 
 # Import del modulo winget remote
-log "Importo il modulo remoto 'winget remote' all'interno della sessione"
-try {
-    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1" | Invoke-Expression
-    log "Modulo 'winget remote' caricato correttamente."
-} catch {
-    log "Errore nell'importazione del modulo 'winget remote'."
-}
+#log "Importo il modulo remoto 'winget remote' all'interno della sessione"
+#try {
+#    Invoke-RestMethod "https://raw.githubusercontent.com/vlT-vl/winget-remote/refs/heads/main/WingetRemote.psm1" | Invoke-Expression
+#    log "Modulo 'winget remote' caricato correttamente."
+#} catch {
+    #log "Errore nell'importazione del modulo 'winget remote'."
+#}
 
 # installazione con il modulo winget remote di sophos s2e
 $result = winget remote $manifestsophos
