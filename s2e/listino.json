@@ -1,0 +1,44 @@
+{
+  "generatedAt": "2026-06-08T14:00:17.399Z",
+  "discounts": {
+    "12": 0,
+    "24": 0.1,
+    "36": 0.15
+  },
+  "services": [
+    {
+      "id": "patch",
+      "icon": "patch",
+      "name": "Patching as a Service",
+      "desc": "Gestione e applicazione patch su server e VM.",
+      "metric": "Server / VM gestiti",
+      "unit": "server/VM",
+      "tiers": [
+        {
+          "l": "1 – 50",
+          "min": 1,
+          "max": 50,
+          "price": 16
+        },
+        {
+          "l": "51 – 200",
+          "min": 51,
+          "max": 200,
+          "price": 13
+        },
+        {
+          "l": "201 – 500",
+          "min": 201,
+          "max": 500,
+          "price": 11
+        },
+        {
+          "l": "Oltre 500",
+          "min": 501,
+          "max": 100000,
+          "price": 9
+        }
+      ]
+    }
+  ]
+}
